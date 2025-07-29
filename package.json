@@ -1,0 +1,22 @@
+{
+  "name": "automationsandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GHodge29/AutomationSandbox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GHodge29/AutomationSandbox/issues"
+  },
+  "homepage": "https://github.com/GHodge29/AutomationSandbox#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.1.0"
+  }
+}
