@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { loginPage } from '../selectors/loginPage';
 
 test.describe('Login tests', () => {
-
-  let login: loginPage;
 
   test.beforeEach(async ({ page }) => {
     await test.step('Navigate to Home page', async () => {
@@ -13,28 +10,24 @@ test.describe('Login tests', () => {
   });
 
   test('Valid login', async ({ page }) => {
-
-    login = new loginPage(page);
-    
     await test.step('Navigate to the login screen', async () => {
-      await expect(login.signInButton).toBeVisible();
-      await login.signInButton.click();
+      await expect(page.locator('[data-test="nav-sign-in"]')).toBeVisible();
+      await page.locator('[data-test="nav-sign-in"]').click();
     });
     await test.step('Populate email address', async () => {
-      await expect(login.emailInput).toBeVisible();
-      await login.emailInput.fill('admin@practicesoftwaretesting.com');
+      await expect(page.locator('[data-test="email"]')).toBeVisible();
+      await page.locator('[data-test="email"]').fill('admin@practicesoftwaretesting.com');
     });
       await test.step('Populate password', async () => {
-      await expect(login.passwordInput).toBeVisible();
-      await login.passwordInput.fill('welcome01');  
+      await expect(page.locator('[data-test="password"]')).toBeVisible();
+      await page.locator('[data-test="password"]').fill('welcome01');
     });
     await test.step('Click Login Button', async () => {
-      await expect(login.loginSubmitButton).toBeEnabled();
-      await login.loginSubmitButton.click();
+      await expect(page.locator('[data-test="login-submit"]')).toBeEnabled();
+      await page.locator('[data-test="login-submit"]').click();
     });
     await test.step('Verify login has worked', async () => {
-      await expect(login.profileNavMenu).toBeVisible();
-      await expect(login.profileNavMenu).toContainText('John Doe');
+       await expect(page.locator('[data-test="nav-menu"]')).toContainText('John Doe');
     });
   });
 
