@@ -7,6 +7,8 @@ export class loginPage {
   readonly passwordInput: Locator;
   readonly loginSubmitButton: Locator;
   readonly profileNavMenu: Locator;
+  readonly invalidLoginError: Locator;
+  readonly invalidEmailError: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -15,10 +17,13 @@ export class loginPage {
     this.passwordInput = page.locator('[data-test="password"]');
     this.loginSubmitButton = page.locator('[data-test="login-submit"]');
     this.profileNavMenu = page.locator('[data-test="nav-menu"]');
+    this.invalidLoginError = page.locator('[data-test="login-error"]');
+    this.invalidEmailError = page.locator('[data-test="email-error"]');
   }
 
-//   async goto() {
-//     await this.page.goto('https://playwright.dev');
-//   }
+  async gotoWebsite() {
+    await this.page.goto('https://practicesoftwaretesting.com/');
+    await expect(this.page).toHaveTitle(/Practice Software Testing/);
+  }
 
 }

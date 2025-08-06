@@ -1,14 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { loginPage } from '../selectors/loginPage';
+import { faker } from '@faker-js/faker';
 
 test.describe('Login tests', () => {
 
   let login: loginPage;
 
+  const validEmail = 'admin@practicesoftwaretesting.com';
+  const password = faker.animal.bear();
+  const invalidEmail = faker.animal.bear();
+
   test.beforeEach(async ({ page }) => {
     await test.step('Navigate to Home page', async () => {
-      await page.goto('https://practicesoftwaretesting.com/');
-      await expect(page).toHaveTitle(/Practice Software Testing/);
+      login = new loginPage(page);
+      await login.gotoWebsite();
     });
   });
 
@@ -22,7 +27,7 @@ test.describe('Login tests', () => {
     });
     await test.step('Populate email address', async () => {
       await expect(login.emailInput).toBeVisible();
-      await login.emailInput.fill('admin@practicesoftwaretesting.com');
+      await login.emailInput.fill(validEmail);
     });
       await test.step('Populate password', async () => {
       await expect(login.passwordInput).toBeVisible();
@@ -40,46 +45,46 @@ test.describe('Login tests', () => {
 
    test('Invalid password', async ({ page }) => {
     await test.step('Navigate to the login screen', async () => {
-      await expect(page.locator('[data-test="nav-sign-in"]')).toBeVisible();
-      await page.locator('[data-test="nav-sign-in"]').click();
+      await expect(login.signInButton).toBeVisible();
+      await login.signInButton.click();
     });
     await test.step('Populate email address', async () => {
-      await expect(page.locator('[data-test="email"]')).toBeVisible();
-      await page.locator('[data-test="email"]').fill('admin@practicesoftwaretesting.com');
+      await expect(login.emailInput).toBeVisible();
+      await login.emailInput.fill(validEmail);
     });
-      await test.step('Populate password', async () => {
-      await expect(page.locator('[data-test="password"]')).toBeVisible();
-      await page.locator('[data-test="password"]').fill('sfgsfhsfh');
+    await test.step('Populate password', async () => {
+      await expect(login.passwordInput).toBeVisible();
+      await login.passwordInput.fill(password);  
     });
     await test.step('Click Login Button', async () => {
-      await expect(page.locator('[data-test="login-submit"]')).toBeEnabled();
-      await page.locator('[data-test="login-submit"]').click();
+      await expect(login.loginSubmitButton).toBeEnabled();
+      await login.loginSubmitButton.click();
     });
     await test.step('Verify login has failed', async () => {
-      await expect(page.locator('[data-test="login-error"]')).toBeVisible();
-      await expect(page.locator('[data-test="login-error"]')).toContainText('Invalid email or password');
+      await expect(login.invalidLoginError).toBeVisible();
+      await expect(login.invalidLoginError).toContainText('Invalid email or password');
     });
   });
 test('Invalid email', async ({ page }) => {
     await test.step('Navigate to the login screen', async () => {
-      await expect(page.locator('[data-test="nav-sign-in"]')).toBeVisible();
-      await page.locator('[data-test="nav-sign-in"]').click();
+      await expect(login.signInButton).toBeVisible();
+      await login.signInButton.click();
     });
     await test.step('Populate email address', async () => {
-      await expect(page.locator('[data-test="email"]')).toBeVisible();
-      await page.locator('[data-test="email"]').fill('shjghsgkjj');
+      await expect(login.emailInput).toBeVisible();
+      await login.emailInput.fill(invalidEmail);
     });
       await test.step('Populate password', async () => {
-      await expect(page.locator('[data-test="password"]')).toBeVisible();
-      await page.locator('[data-test="password"]').fill('welcome01');
+      await expect(login.passwordInput).toBeVisible();
+      await login.passwordInput.fill('welcome01');  
     });
     await test.step('Click Login Button', async () => {
-      await expect(page.locator('[data-test="login-submit"]')).toBeEnabled();
-      await page.locator('[data-test="login-submit"]').click();
+      await expect(login.loginSubmitButton).toBeEnabled();
+      await login.loginSubmitButton.click();
     });
     await test.step('Verify login has failed', async () => {
-      await expect(page.locator('[data-test="email-error"]')).toBeVisible();
-      await expect(page.locator('[data-test="email-error"]')).toContainText('Email format is invalid');
+      await expect(login.invalidEmailError).toBeVisible();
+      await expect(login.invalidEmailError).toContainText('Email format is invalid');
     });
   });
 });
